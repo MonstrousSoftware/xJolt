@@ -20,6 +20,7 @@ public class JoltLoader {
               #include "JoltCustom.h"
     */
     public static void init(JParserLibraryLoaderListener listener) {
+        System.out.println("JoltLoader Oct 7, 2025");
         JParserLibraryLoader.load("jolt", listener);
     }
 
@@ -27,6 +28,7 @@ public class JoltLoader {
      * Not compatible with the web
      */
     public static void initSync(JParserLibraryLoaderListener listener) {
+        System.out.println("JoltLoader Oct 7, 2025");
         JParserLibraryLoader.loadSync("jolt", listener);
     }
 }

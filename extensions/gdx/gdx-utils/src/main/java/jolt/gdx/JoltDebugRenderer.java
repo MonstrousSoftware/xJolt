@@ -92,6 +92,7 @@ public abstract class JoltDebugRenderer extends DebugRendererEm {
 
     @Override
     protected void DrawMesh(int id, Mat44 inModelMatrix, IDLFloatArray vertices, Color inModelColor, ECullMode inCullMode, EDrawMode inDrawMode) {
+        //System.out.println("Draw Mesh");
         int verticesSize = vertices.getSize();
         if (!enable || verticesSize == 0) {
             return;
@@ -101,6 +102,7 @@ public abstract class JoltDebugRenderer extends DebugRendererEm {
         if(model == null) {
             model = createModel(vertices, GL20.GL_TRIANGLES);
             modelBatch.put(id, model);
+            System.out.println("Create model id "+id);
         }
 
         Vec4 vec4 = inModelColor.ToVec4();
@@ -115,6 +117,16 @@ public abstract class JoltDebugRenderer extends DebugRendererEm {
         JoltGdx.convert(inModelMatrix, modelRenderer.transform);
         modelRenderer.diffuseColor.color.set(r1, g1, b1, a1);
         modelRendererList.add(modelRenderer);
+    }
+
+    private Material mat;
+
+    private Material createMaterial(){
+        Material material = new Material(TextureAttribute.createDiffuse(checkerboardTexture));
+        material.id = "checkerboard";
+        ColorAttribute diffuseColor = ColorAttribute.createDiffuse(1, 1, 1, 1);
+        material.set(diffuseColor);
+        return material;
     }
 
     private Model createModel(IDLFloatArray vertices, int primitiveType) {
@@ -132,16 +144,21 @@ public abstract class JoltDebugRenderer extends DebugRendererEm {
                 new VertexAttribute(VertexAttributes.Usage.ColorUnpacked, 4, "a_color"));
         mesh.setVertices(array);
         MeshPart meshPart = createMeshPart("meshpart1", mesh, 0, localVerticesSize / 12, primitiveType);
-        Material material = new Material(TextureAttribute.createDiffuse(checkerboardTexture));
-        ColorAttribute diffuseColor = ColorAttribute.createDiffuse(1, 1, 1, 1);
-        material.set(diffuseColor);
+
+        // use same material for all
+        if(mat == null)
+            mat = createMaterial();
+//        Material material = new Material(TextureAttribute.createDiffuse(checkerboardTexture));
+//        material.id = "checkerboard";
+//        ColorAttribute diffuseColor = ColorAttribute.createDiffuse(1, 1, 1, 1);
+//        material.set(diffuseColor);
         Node node = new Node();
         node.id = "node1";
-        node.parts.add(new NodePart(meshPart, material));
+        node.parts.add(new NodePart(meshPart, mat));
         Model model = createModel();
         model.nodes.add(node);
         model.meshes.add(mesh);
-        model.materials.add(material);
+        model.materials.add(mat);
         model.meshParts.add(meshPart);
         return model;
     }
@@ -200,6 +217,7 @@ public abstract class JoltDebugRenderer extends DebugRendererEm {
 
     @Override
     public void DrawCylinder(Mat44 inMatrix, float inHalfHeight, float inRadius, Color inColor) {
+        //ystem.out.println("Draw Cylinder 1");
         if (mDrawShapeWireframe) {
             super.DrawCylinder(inMatrix, inHalfHeight, inRadius, inColor, ECastShadow.ECastShadow_Off, EDrawMode.EDrawMode_Wireframe);
         } else {
@@ -209,6 +227,7 @@ public abstract class JoltDebugRenderer extends DebugRendererEm {
 
     @Override
     public void DrawCylinder(Mat44 inMatrix, float inHalfHeight, float inRadius, Color inColor, ECastShadow inCastShadow) {
+        //System.out.println("Draw Cylinder 2");
         if (mDrawShapeWireframe) {
             super.DrawCylinder(inMatrix, inHalfHeight, inRadius, inColor, ECastShadow.ECastShadow_Off, EDrawMode.EDrawMode_Wireframe);
         } else {
@@ -218,6 +237,7 @@ public abstract class JoltDebugRenderer extends DebugRendererEm {
 
     @Override
     public void DrawCylinder(Mat44 inMatrix, float inHalfHeight, float inRadius, Color inColor, ECastShadow inCastShadow, EDrawMode inDrawMode) {
+        //System.out.println("Draw Cylinder 3");
         if (mDrawShapeWireframe) {
             super.DrawCylinder(inMatrix, inHalfHeight, inRadius, inColor, ECastShadow.ECastShadow_Off, EDrawMode.EDrawMode_Wireframe);
         } else {

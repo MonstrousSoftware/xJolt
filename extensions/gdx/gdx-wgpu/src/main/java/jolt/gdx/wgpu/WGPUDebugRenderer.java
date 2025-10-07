@@ -15,6 +15,7 @@ import com.monstrous.gdx.webgpu.graphics.WgTexture;
 import com.monstrous.gdx.webgpu.graphics.g3d.WgModel;
 import com.monstrous.gdx.webgpu.graphics.g3d.WgModelBatch;
 import com.monstrous.gdx.webgpu.graphics.g3d.model.WgMeshPart;
+import com.monstrous.gdx.webgpu.graphics.g3d.shaders.WgDefaultShader;
 import jolt.gdx.JoltDebugRenderer;
 
 public class WGPUDebugRenderer extends JoltDebugRenderer {
@@ -22,7 +23,15 @@ public class WGPUDebugRenderer extends JoltDebugRenderer {
     WgModelBatch batch;
 
     public WGPUDebugRenderer() {
-        batch = new WgModelBatch();
+        WgModelBatch.Config config = new WgModelBatch.Config();
+        config.maxDirectionalLights = 1;
+        config.maxPointLights = 0;
+        config.numBones = 2;
+        config.maxRigged = 2;
+        config.usePBR = false;
+
+        System.out.println("Webgpu debug renderer");
+        batch = new WgModelBatch(config);
     }
 
     @Override
@@ -59,6 +68,8 @@ public class WGPUDebugRenderer extends JoltDebugRenderer {
     @Override
     protected void batchEnd() {
         batch.end();
+        //System.out.println("draw calls: " + batch.drawCalls+ " shader switches:" + batch.shaderSwitches+" num materials: "+batch.numMaterials);
+
     }
 
     @Override

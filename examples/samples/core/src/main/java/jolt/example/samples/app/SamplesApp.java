@@ -175,8 +175,8 @@ public class SamplesApp extends InputAdapter {
                 "P: Pause/Unpause\n" +
                 "R: Reset\n" +
                 "Shift + R: Next Test\n" +
-                "D: Debug Renderer On/Off\n" +
-                "W: Wireframe On/Off";
+                "T: Debug Renderer On/Off\n" +
+                "Y: Wireframe On/Off";
     }
 
     private void drawPhysics() {
@@ -234,10 +234,10 @@ public class SamplesApp extends InputAdapter {
             }
             return true;
         }
-        else if(keycode == Input.Keys.D) {
+        else if(keycode == Input.Keys.T) {
             debugRenderer.setEnable(!debugRenderer.isEnable());
         }
-        else if(keycode == Input.Keys.W) {
+        else if(keycode == Input.Keys.Y) {
             boolean mDrawShapeWireframe = debugSettings.get_mDrawShapeWireframe();
             debugSettings.set_mDrawShapeWireframe(!mDrawShapeWireframe);
         }

@@ -1,12 +1,20 @@
 plugins {
-    id("java")
+    //id("java")
+    id("java-library")
 }
 
 val moduleName = "gdx-utils"
 
 dependencies {
     implementation("com.badlogicgames.gdx:gdx:${LibExt.gdxVersion}")
-    implementation(project(":jolt:jolt-core"))
+    if(LibExt.useRepoLibs) {
+        api("com.github.xpenatan.xJolt:jolt-core:-SNAPSHOT")
+        //api("com.github.xpenatan.xJolt:gdx-utils:-SNAPSHOT")
+    }
+    else {
+        api(project(":jolt:jolt-core"))
+//        implementation(project(":extensions:gdx:gdx-utils"))
+    }
 }
 
 java {
